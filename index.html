@@ -10,13 +10,13 @@
     <script src="js/scripts.js" defer></script>
 </head>
 <body>
-    <div id="fab" class="fab-container">
+    <div id="fab" class="fab-container" onclick="toggleMenu()">
         <div class="button iconbutton"><i class="fa-solid fa-bars"></i></div>
     </div>
 
     <ul id="options" class="options">
         <li>
-            <div class="iconbutton">
+            <div id="clock-button" class="iconbutton" onclick="showClock()">
                 <i class="fa-regular fa-clock"></i>
             </div>
             <span class="btn-label">Horário</span>

@@ -137,10 +137,12 @@ input, select {
 .todo h3 {
     flex: 1;
     font-size: 0.9rem;
+    width: 100%;
 }
 
 .todo button {
     margin-left: 0.4rem;
+    display: none;
 }
 
 .done {
@@ -156,8 +158,8 @@ input, select {
 .clock {
     display: none;
     position: absolute;
-    top: 10%;
-    left: 15%;
+    top: 4%;
+    left: 50%;
     transform: translateX(-50%) translateY(-50%);
     color: #000000;
     font-size: 30px;
@@ -168,7 +170,7 @@ input, select {
 .fab-container {
     position: absolute;
     top: 20%;
-    left: 1%;
+    left: 0.5%;
     cursor:pointer;
 }
 
@@ -177,16 +179,26 @@ input, select {
     height:50px;
     border-radius: 100%;
     background: #4f75ff;
+    z-index: 1;
+}
+
+.iconbutton:hover{
     box-shadow: 1px 1px 12px #aaaaaa;
+    background-color: #182f81;
+    transition: 0.3s;
 }
 
 .button{
     width:60px;
     height:60px;
-    background:#4f75ff;;
+    background:#4f75ff;
     list-style-type: none;
     position:absolute;
     bottom:70px;
+}
+
+.button:hover, .iconbutton-actived{
+    background-color: #182f81;
 }
 
 .iconbutton i{
@@ -194,7 +206,15 @@ input, select {
     align-items:center;
     justify-content:center;
     height: 100%;
-    color:white;
+    color:rgb(0, 0, 0);
+}
+
+.iconbutton i:hover{
+    color:rgb(255, 255, 255);
+}
+
+.iconbutton-actived i{
+    color:#989898;
 }
 
 .options li{
@@ -204,10 +224,15 @@ input, select {
 }
 
 .options{
-    display: none;
-    list-style-type: none;
     position:absolute;
     top: 20%;
+    transition: opacity 1.5s;
+    opacity: 1;
+}
+
+.hidden-menu {
+    top: -250px;
+    opacity: 0;
 }
 
 .btn-label{

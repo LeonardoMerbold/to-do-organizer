@@ -138,6 +138,9 @@ input, select {
     flex: 1;
     font-size: 0.9rem;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .todo button {
@@ -145,8 +148,20 @@ input, select {
     display: none;
 }
 
+.todo:hover{
+    background-color: #e2e2e2;
+}
+
+.todo:hover button {
+    display: block;
+}
+
 .done {
     background-color: #395169;
+}
+
+.done:hover{
+    background-color: #122c4f;
 }
 
 .done h3 {
@@ -158,13 +173,30 @@ input, select {
 .clock {
     display: none;
     position: absolute;
-    top: 4%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    top: 1%;
+    left: 42.5%;
     color: #000000;
-    font-size: 30px;
+    font-size: 32px;
     font-family: Orbitron;
-    letter-spacing: 7px;
+    letter-spacing: 4px;
+    animation: pulse 0.5s ease-in-out 2;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .fab-container {

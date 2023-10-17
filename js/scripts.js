@@ -25,15 +25,34 @@ const showClock = () => {
     clockBtn.classList.toggle("button-actived");
     clockBtn.classList.toggle("iconbutton-actived");
 
-    timer.style.display = (timer.style.display !== "block" ? "block" : "none");
+    if(clockBtn.classList.contains("iconbutton-actived")) {
+        timer.classList.add("pulse");
+        timer.classList.remove("out");
+        timer.classList.remove("out2")
+    }else {
+        timer.classList.add("out");
+        setTimeout(function(){
+            timer.classList.add("out2")
+            timer.classList.remove("pulse")
+        },1900);
+    }
 };
 
 const saveTodo = (text) => {
+
+    let regexp = /^\s+$/;
+
+    if(text.match(regexp)){
+        text = "Sem Titulo";
+    }else{
+        text = text.trim();
+    }
 
     const todo = document.createElement("div")
     todo.classList.add("todo")
 
     const todoTitle = document.createElement("h3")
+
     todoTitle.innerHTML = text;
     todo.appendChild(todoTitle);
 

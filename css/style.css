@@ -179,7 +179,20 @@ input, select {
     font-size: 32px;
     font-family: Orbitron;
     letter-spacing: 4px;
+    transition-delay: 2s;
+}
+
+.pulse {
+    display: block;
     animation: pulse 0.5s ease-in-out 2;
+}
+
+.out {
+    animation: out 2s ease-in-out;
+}
+
+.out2 {
+    display: none;
 }
 
 @keyframes pulse {
@@ -196,6 +209,18 @@ input, select {
     100% {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0);
     }
 }
 

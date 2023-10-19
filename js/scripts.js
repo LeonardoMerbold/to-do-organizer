@@ -38,22 +38,14 @@ const showClock = () => {
     }
 };
 
-const saveTodo = (text) => {
-
-    let regexp = /^\s+$/;
-
-    if(text.match(regexp)){
-        text = "Sem Titulo";
-    }else{
-        text = text.trim();
-    }
+const saveTodo = (validatedTitle) => {
 
     const todo = document.createElement("div")
     todo.classList.add("todo")
 
     const todoTitle = document.createElement("h3")
 
-    todoTitle.innerHTML = text;
+    todoTitle.innerHTML = validatedTitle;
     todo.appendChild(todoTitle);
 
     const doneBtn = document.createElement("button")
@@ -77,6 +69,14 @@ const saveTodo = (text) => {
     todoInput.focus();
 };
 
+const validation = (title) => {
+    let regexp = /^\s+$/;
+
+    title = title.match(regexp) ? "Sem titulo" : title.trim();
+
+    return title;
+};
+
 const toggleForms = () => {
     editForm.classList.toggle("hide")
     todoForm.classList.toggle("hide")
@@ -96,13 +96,14 @@ const updateTodo = (text) => {
 }
 
 // Eventos
-todoForm.addEventListener("submit", (e) => {
+todoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const inputValue = todoInput.value;
+    let inputValue = todoInput.value;
 
     if(inputValue) {
-        saveTodo(inputValue)
+        let validatedInput = await validation(inputValue);
+        saveTodo(validatedInput)
     }
 });
 
@@ -137,10 +138,10 @@ cancelEditBtn.addEventListener("click", (e) => {
     toggleForms();
 });
 
-editForm.addEventListener("submit", (e) => {
+editForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const editInputValue = editInput.value;
+    const editInputValue = await validation(editInput.value);
 
     if(editInputValue) {
         updateTodo(editInputValue)

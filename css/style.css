@@ -23,6 +23,8 @@ button {
     transition: 0.4s
 }
 
+/* Global buttons */
+
 button:hover {
     background-color: #102F5e;
     color: #FFF;
@@ -170,6 +172,8 @@ input, select {
     font-style: italic;
 }
 
+/* menu options */
+
 .clock {
     display: none;
     position: absolute;
@@ -224,6 +228,8 @@ input, select {
     }
 }
 
+/* menu buttons */
+
 .fab-container {
     position: absolute;
     top: 20%;
@@ -250,8 +256,8 @@ input, select {
     height:60px;
     background:#4f75ff;
     list-style-type: none;
-    position:absolute;
-    bottom:70px;
+    position: fixed;
+    top: 1%;
 }
 
 .button:hover, .iconbutton-actived{
@@ -281,7 +287,7 @@ input, select {
 }
 
 .options{
-    position:absolute;
+    position:fixed;
     top: 20%;
     transition: opacity 1.5s;
     opacity: 1;

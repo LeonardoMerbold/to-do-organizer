@@ -67,6 +67,8 @@ const saveTodo = (validatedTitle) => {
 
     todoInput.value = "";
     todoInput.focus();
+
+    searchTasks();
 };
 
 const validation = (title) => {
@@ -152,11 +154,11 @@ editForm.addEventListener("submit", async (e) => {
 
 
 const searchElement = document.querySelector('#toolbar input')
-const tasks = document.querySelectorAll('div .todo')
-
 searchElement.addEventListener('input', searchTasks)
 
 function searchTasks() {
+    const tasks = document.querySelectorAll('div .todo')
+
     if(searchElement.value != '') {
         for(let task of tasks) {
             let title = task.querySelector('h3')

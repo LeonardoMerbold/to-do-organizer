@@ -165,12 +165,12 @@ function searchTasks() {
             if(!title.includes(filterText)) {
                 task.style.display = "none"
             } else {
-                task.style.display = "block"
+                task.style.display = "flex"
             }
         }
     } else {
         for(let task of tasks) {
-            task.style.display = "block"
+            task.style.display = "flex"
         }
     }
 }

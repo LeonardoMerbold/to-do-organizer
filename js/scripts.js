@@ -5,6 +5,7 @@ const clockBtn = document.querySelector("#clock-button");
 
 const timer = document.querySelector("#clockDisplay")
 
+const toolbarForm = document.querySelector("#toolbar-form");
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
@@ -86,6 +87,7 @@ const toggleForms = () => {
     editForm.classList.toggle("hide")
     todoForm.classList.toggle("hide")
     todoList.classList.toggle("hide")
+    toolbarForm.classList.toggle("hide")
 };
 
 const updateTodo = (text) => {

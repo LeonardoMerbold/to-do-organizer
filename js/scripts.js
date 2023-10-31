@@ -12,6 +12,9 @@ const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 
+const modal = document.querySelector("#modal");
+const accept = document.querySelector("#confirm");
+
 let oldInputValue;
 options.classList.toggle("hidden-menu");
 
@@ -123,7 +126,15 @@ document.addEventListener("click", (e) => {
     }
 
     if(targetElement.classList.contains("remove-todo")) {
-        parentElement.remove();
+        modal.style.display = "block";
+
+        accept.addEventListener("click", (e) => {
+            parentElement.remove();
+            modal.style.display = "none";
+        });
+
+    } else {
+        modal.style.display = "none";
     }
 
     if(targetElement.classList.contains("edit-todo")) {

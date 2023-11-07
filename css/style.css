@@ -148,6 +148,10 @@ input, select {
     white-space: nowrap;
 }
 
+.todo h6 {
+    margin: 0 2px;
+}
+
 .todo button {
     margin-left: 0.4rem;
     display: none;

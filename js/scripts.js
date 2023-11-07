@@ -166,8 +166,10 @@ editForm.addEventListener("submit", async (e) => {
 })
 
 
-const searchElement = document.querySelector('#toolbar input')
+const searchElement = document.querySelector('#search input')
+// console.log(document.querySelector('#search input'))
 searchElement.addEventListener('input', searchTasks)
+// console.log(document.querySelectorAll('div .todo'))
 
 function searchTasks() {
     const tasks = document.querySelectorAll('div .todo')
@@ -186,6 +188,31 @@ function searchTasks() {
     } else {
         for(let task of tasks) {
             task.style.display = "flex"
+        }
+    }
+}
+
+const filterElement = document.querySelector('#filter select');
+filterElement.addEventListener('change', filterTasks);
+
+function filterTasks() {
+    const tasks = document.querySelectorAll('.todo');
+
+    for(let task of tasks) {
+        let tags = task.querySelectorAll('h6');
+        let hasMatchingTag = false;
+
+        for(let tag of tags) {
+            let tagValue = tag.getAttribute('data-value');
+            if(tagValue && tagValue.split(' ').includes(filterElement.value)) {
+                hasMatchingTag = true;
+            }
+        }
+
+        if(filterElement.value == 'all' || hasMatchingTag) {
+            task.style.display = "flex";
+        } else {
+            task.style.display = "none";
         }
     }
 }

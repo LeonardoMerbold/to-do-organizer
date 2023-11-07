@@ -52,6 +52,11 @@ const saveTodo = (validatedTitle) => {
     todoTitle.innerHTML = validatedTitle;
     todo.appendChild(todoTitle);
 
+    const tag = document.createElement("h6")
+    tag.setAttribute("data-value", "todo")
+    tag.textContent = "Pendentes"
+    todo.appendChild(tag)
+
     const doneBtn = document.createElement("button")
     doneBtn.classList.add("finish-todo")
     doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'
@@ -167,9 +172,7 @@ editForm.addEventListener("submit", async (e) => {
 
 
 const searchElement = document.querySelector('#search input')
-// console.log(document.querySelector('#search input'))
 searchElement.addEventListener('input', searchTasks)
-// console.log(document.querySelectorAll('div .todo'))
 
 function searchTasks() {
     const tasks = document.querySelectorAll('div .todo')

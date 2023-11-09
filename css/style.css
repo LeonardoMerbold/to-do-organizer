@@ -152,6 +152,10 @@ input, select {
     margin: 0 2px;
 }
 
+.todo:hover h6 {
+    display: none;
+}
+
 .todo button {
     margin-left: 0.4rem;
     display: none;
@@ -173,10 +177,17 @@ input, select {
     background-color: #122c4f;
 }
 
-.done h3 {
+.done h3, .done h6 {
     color: #FFF;
+}
+
+.done h3 {
     text-decoration: line-through;
     font-style: italic;
+}
+
+.overdue h6 {
+    color: rgba(255, 0, 0);
 }
 
 /* menu options */

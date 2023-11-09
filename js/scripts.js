@@ -129,7 +129,15 @@ document.addEventListener("click", (e) => {
     }
 
     if(targetElement.classList.contains("finish-todo")) {
-        parentElement.classList.toggle("done");
+        const changeTag = parentElement.querySelector("h6");
+        const isDone = parentElement.classList.toggle("done")
+
+        if (changeTag) {
+            changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
+            changeTag.setAttribute("data-value", isDone ? "done" : "todo")
+        }
+
+        parentElement.classList.remove("overdue");
     }
 
     if(targetElement.classList.contains("remove-todo")) {

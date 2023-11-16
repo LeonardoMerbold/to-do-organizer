@@ -12,9 +12,15 @@ const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
+const progressBar = document.querySelector("#progress-bar");
 
 const modal = document.querySelector("#modal");
 const accept = document.querySelector("#confirm");
+
+var inProgress = true;
+var progressInterval;
+var width = 1;
+var startedProgress = false;
 
 let oldInputValue;
 options.classList.toggle("hidden-menu");
@@ -96,7 +102,8 @@ const toggleForms = () => {
 };
 
 const updateTodo = (text) => {
-    const todos = document.querySelectorAll(".todo")
+    const todos = document.querySelectorAll(".title")
+
 
     todos.forEach((todo) => {
         let todoTitle = todo.querySelector("h3")
@@ -153,10 +160,21 @@ document.addEventListener("click", (e) => {
     }
 
     if(targetElement.classList.contains("edit-todo")) {
-        toggleForms();
+        toggleForms()
 
         editInput.value = todoTitle;
         oldInputValue = todoTitle;
+    }
+
+    if(targetElement.classList.contains("progress-todo")){
+        const changeIcon = parentElement.querySelector("button.progress-todo i")
+
+        startedProgress == false ? progressBar.style.display = "flex" : startedProgress = true;
+
+        if(changeIcon) {
+            changeIcon.className = inProgress ? "fa-solid fa-pause" : "fa-solid fa-play"
+            inProgress = !inProgress;
+        }
     }
 })
 
@@ -226,4 +244,36 @@ function filterTasks() {
             task.style.display = "none";
         }
     }
+}
+
+function frame() {
+    if (width >= 100) {
+        clearInterval(progressInterval);
+    } else {
+        width++;
+        document.querySelector(".progress").style.width = width + "%";
+    }
+}
+
+function progress() {
+    if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+    } else {
+        progressInterval = setInterval(frame, 1000);
+    }
+}
+
+var collapsibles = document.getElementsByClassName("collapsible");
+
+for (let i = 0; i < collapsibles.length; i++) {
+    collapsibles[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.querySelector(".desc-todo");
+
+        content.style.display === "block" ? content.style.display = "none" : content.style.display = "block";
+
+        let icon = document.querySelector(".title i")
+        this.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right'
+    })
 }

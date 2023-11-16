@@ -89,44 +89,123 @@
             </div>
         </div>
         <div id="todo-list">
-            <div class="todo done">
-                <h3>Colocar o lixo para fora</h3>
-                <h6 data-value="done">Concluídos</h6>
-                <button class="finish-todo">
-                    <i class="fa-solid fa-check"></i>
-                </button>
-                <button class="edit-todo">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="remove-todo">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="collapsible done">
+                <div class="todo">
+                    <div class="title">
+                        <i class="fa-solid fa-caret-right"></i>
+                        <h3>Colocar o lixo para fora</h3>
+                    </div>
+                    <div class="buttons-todo">
+                        <div class="buttons-options">
+                            <button class="finish-todo">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button class="edit-todo">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="remove-todo">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="button-progress">
+                            <button class="progress-todo" onclick="progress()">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info-todo">
+                        <h6 data-value="done">Concluídos</h6>
+                        <div class="time">
+                            <p class="time-start">08:00</p>
+                            <p class="time-text">às</p>
+                            <p class="time-end">09:00</p>
+                        </div>
+                        <div id="progress-bar" class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                    <div id="desc-todo" class="desc-todo">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo dicta voluptates id sequi porro commodi, nesciunt sint libero, quod sapiente corrupti nam sit quia reiciendis itaque, iste inventore mollitia? Nihil.</p>
+                    </div>
+                </div>
             </div>
-            <div class="todo">
-                <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
-                <h6 data-value="todo">Pendentes</h6>
-                <button class="finish-todo">
-                    <i class="fa-solid fa-check"></i>
-                </button>
-                <button class="edit-todo">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="remove-todo">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="collapsible">
+                <div class="todo">
+                    <div class="title">
+                        <i class="fa-solid fa-caret-right"></i>
+                        <h3>Estudar CSS e Javascript</h3>
+                    </div>
+                    <div class="buttons-todo">
+                        <div class="buttons-options">
+                            <button class="finish-todo">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button class="edit-todo">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="remove-todo">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="button-progress">
+                            <button class="progress-todo" onclick="progress()">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info-todo">
+                        <h6 data-value="todo">Pendentes</h6>
+                        <div class="time">
+                            <p class="time-start">09:00</p>
+                            <p class="time-text">às</p>
+                            <p class="time-end">18:00</p>
+                        </div>
+                        <div id="progress-bar" class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                    <div id="desc-todo" class="desc-todo">
+                        <p> <b>• Estudar CSS:</b> Selectors, Colors, Margin, Padding, Height, Width, Display; <br>
+                            <b>• Estudar Javascript:</b> Functions, Arrow Functions, Objects, Arrays, Array methods, Ternary Operators.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="todo overdue">
-                <h3>Estudar CSS e JavaScript</h3>
-                <h6 data-value="overdue">Atrasados</h6>
-                <button class="finish-todo">
-                    <i class="fa-solid fa-check"></i>
-                </button>
-                <button class="edit-todo">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="remove-todo">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="collapsible overdue">
+                <div class="todo">
+                    <div class="title">
+                        <h3>Ir para a academia</h3>
+                    </div>
+                    <div class="buttons-todo">
+                        <div class="buttons-options">
+                            <button class="finish-todo">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button class="edit-todo">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="remove-todo">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="button-progress">
+                            <button class="progress-todo" onclick="progress()">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info-todo">
+                        <h6 data-value="overdue">Atrasados</h6>
+                        <div class="time">
+                            <p class="time-start">05:00</p>
+                            <p class="time-text">às</p>
+                            <p class="time-end">07:00</p>
+                        </div>
+                        <div id="progress-bar" class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="modal" class="modal">

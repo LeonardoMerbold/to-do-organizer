@@ -158,8 +158,12 @@ document.addEventListener("click", (e) => {
         modal.style.display = "block";
 
         accept.addEventListener("click", (e) => {
-            parentElement.remove();
-            modal.style.display = "none";
+            const collapsibleToRemove = targetElement.closest(".collapsible")
+
+            if (collapsibleToRemove) {
+                collapsibleToRemove.remove();
+                modal.style.display = "none";
+            }
         });
 
     } else {

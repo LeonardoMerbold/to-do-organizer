@@ -148,7 +148,7 @@ input, select {
 .todo {
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem;
+    padding: 0.5rem;
     transition: 0.3s;
     white-space: nowrap;
 }
@@ -239,7 +239,7 @@ input, select {
 }
 
 .desc-todo {
-    display: flex;
+    display: none;
     padding: 0 2%;
     text-wrap: wrap;
 }

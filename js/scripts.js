@@ -126,6 +126,25 @@ todoForm.addEventListener("submit", async (e) => {
     }
 });
 
+var finishTodoButtons = document.querySelectorAll('.collapsible .finish-todo');
+finishTodoButtons.forEach(function (button) {
+    button.addEventListener('click', finishTask);
+});
+
+function finishTask(event) {
+    const button = event.currentTarget;
+    const collapsible = button.closest(".collapsible");
+    const isDone = collapsible.classList.toggle("done");
+    const changeTag = collapsible.querySelector(".info-todo h6");
+
+    if (changeTag) {
+        changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
+        changeTag.setAttribute("data-value", isDone ? "done" : "todo");
+    }
+
+    collapsible.classList.remove("overdue");
+}
+
 document.addEventListener("click", (e) => {
     const targetElement = e.target;
     const parentElement = targetElement.closest("div");
@@ -133,18 +152,6 @@ document.addEventListener("click", (e) => {
 
     if(parentElement && parentElement.querySelector("h3")) {
         todoTitle = parentElement.querySelector("h3").innerHTML
-    }
-
-    if(targetElement.classList.contains("finish-todo")) {
-        const changeTag = parentElement.querySelector("h6");
-        const isDone = parentElement.classList.toggle("done")
-
-        if (changeTag) {
-            changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
-            changeTag.setAttribute("data-value", isDone ? "done" : "todo")
-        }
-
-        parentElement.classList.remove("overdue");
     }
 
     if(targetElement.classList.contains("remove-todo")) {
@@ -267,13 +274,20 @@ function progress() {
 var collapsibles = document.getElementsByClassName("collapsible");
 
 for (let i = 0; i < collapsibles.length; i++) {
-    collapsibles[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.querySelector(".desc-todo");
+    collapsibles[i].addEventListener("click", showAndHideDescription);
+}
 
-        content.style.display === "block" ? content.style.display = "none" : content.style.display = "block";
+function showAndHideDescription(event) {
+    const isButton = event.target.closest(".buttons-todo button");
 
-        let icon = document.querySelector(".title i")
-        this.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right'
-    })
+    if (!isButton) {
+        const collapsible = event.currentTarget;
+        collapsible.classList.toggle("active");
+
+        const content = collapsible.querySelector(".desc-todo");
+        content.style.display = content.style.display === "flex" ? "none" : "flex";
+
+        const icon = collapsible.querySelector(".title i");
+        collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
+    }
 }

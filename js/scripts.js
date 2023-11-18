@@ -104,7 +104,6 @@ const toggleForms = () => {
 const updateTodo = (text) => {
     const todos = document.querySelectorAll(".title")
 
-
     todos.forEach((todo) => {
         let todoTitle = todo.querySelector("h3")
 
@@ -136,6 +135,7 @@ function finishTask(event) {
     const collapsible = button.closest(".collapsible");
     const isDone = collapsible.classList.toggle("done");
     const changeTag = collapsible.querySelector(".info-todo h6");
+    const button2 = document.querySelector('.progress-todo');
 
     if (changeTag) {
         changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
@@ -143,11 +143,13 @@ function finishTask(event) {
     }
 
     collapsible.classList.remove("overdue");
+
+    verifyStateTodo(changeTag.dataset.value, button);
 }
 
 document.addEventListener("click", (e) => {
     const targetElement = e.target;
-    const parentElement = targetElement.closest("div");
+    const parentElement = targetElement.closest(".collapsible");
     let todoTitle;
 
     if(parentElement && parentElement.querySelector("h3")) {
@@ -294,4 +296,10 @@ function showAndHideDescription(event) {
         const icon = collapsible.querySelector(".title i");
         collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
     }
+}
+
+function verifyStateTodo(state, button) {
+    const targetDiv = document.querySelector('.'+state+'-state');
+    const collapsibleDiv = button.closest('.collapsible');
+    targetDiv.appendChild(collapsibleDiv);
 }

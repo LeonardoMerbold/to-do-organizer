@@ -13,6 +13,7 @@ const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const progressBar = document.querySelector("#progress-bar");
+const todoStates = document.querySelector("#todo-states")
 
 const modal = document.querySelector("#modal");
 const accept = document.querySelector("#confirm");
@@ -50,35 +51,102 @@ const showClock = () => {
 
 const saveTodo = (validatedTitle) => {
 
+    const collapsible = document.createElement("div")
+    collapsible.classList.add("collapsible")
+
     const todo = document.createElement("div")
     todo.classList.add("todo")
+    collapsible.appendChild(todo)
+
+    const title = document.createElement("div")
+    title.classList.add("title")
+    todo.appendChild(title);
+
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid", "fa-caret-right");
+    icon.style.display = "none"
+    title.appendChild(icon);
 
     const todoTitle = document.createElement("h3")
-
     todoTitle.innerHTML = validatedTitle;
-    todo.appendChild(todoTitle);
+    title.appendChild(todoTitle);
 
-    const tag = document.createElement("h6")
-    tag.setAttribute("data-value", "todo")
-    tag.textContent = "Pendentes"
-    todo.appendChild(tag)
+    const buttonsTodo = document.createElement("div");
+    buttonsTodo.classList.add("buttons-todo")
+    todo.appendChild(buttonsTodo);
+
+    const buttonsOptions = document.createElement("div");
+    buttonsOptions.classList.add("buttons-options")
+    buttonsTodo.appendChild(buttonsOptions);
 
     const doneBtn = document.createElement("button")
     doneBtn.classList.add("finish-todo")
     doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'
-    todo.appendChild(doneBtn)
+    buttonsOptions.appendChild(doneBtn)
 
     const editBtn = document.createElement("button")
     editBtn.classList.add("edit-todo")
     editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'
-    todo.appendChild(editBtn)
+    buttonsOptions.appendChild(editBtn)
 
     const deleteBtn = document.createElement("button")
     deleteBtn.classList.add("remove-todo")
     deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'
-    todo.appendChild(deleteBtn)
+    buttonsOptions.appendChild(deleteBtn)
 
-    todoList.appendChild(todo)
+    const buttonsProgress = document.createElement("div");
+    buttonsProgress.classList.add("button-progress")
+    buttonsTodo.appendChild(buttonsProgress)
+
+    const progressBtn = document.createElement("button")
+    progressBtn.classList.add("progress-todo")
+    progressBtn.innerHTML = '<i class="fa-solid fa-play"></i>'
+    buttonsProgress.appendChild(progressBtn)
+
+    const infoTodo = document.createElement("div");
+    infoTodo.classList.add("info-todo")
+    todo.appendChild(infoTodo)
+
+    const tag = document.createElement("h6")
+    tag.setAttribute("data-value", "todo")
+    tag.textContent = "Pendentes"
+    infoTodo.appendChild(tag)
+
+    const time = document.createElement("div");
+    time.classList.add("time")
+    infoTodo.appendChild(time)
+
+    const startTime = document.createElement("p");
+    startTime.classList.add("start-time");
+    time.appendChild(startTime)
+
+    const timeText = document.createElement("p");
+    timeText.classList.add("time-text");
+    time.appendChild(timeText)
+
+    const timeEnd = document.createElement("p");
+    timeEnd.classList.add("time-end");
+    time.appendChild(timeEnd)
+
+    const progressBar = document.createElement("div");
+    progressBar.setAttribute("id", "progress-bar")
+    progressBar.classList.add("progress-bar");
+    infoTodo.appendChild(progressBar)
+
+    const progress = document.createElement("div");
+    progress.classList.add("progress");
+    progressBar.appendChild(progress)
+
+    const descTodo = document.createElement("div");
+    descTodo.setAttribute("id", "desc-todo");
+    descTodo.classList.add("desc-todo");
+    todo.appendChild(descTodo)
+
+    const description = document.createElement("p");
+    description.classList.add("description");
+    descTodo.appendChild(description)
+
+    todoList.appendChild(collapsible);
 
     todoInput.value = "";
     todoInput.focus();
@@ -99,6 +167,7 @@ const toggleForms = () => {
     todoForm.classList.toggle("hide")
     todoList.classList.toggle("hide")
     toolbarForm.classList.toggle("hide")
+    todoStates.classList.toggle("hide")
 };
 
 const updateTodo = (text) => {
@@ -135,7 +204,6 @@ function finishTask(event) {
     const collapsible = button.closest(".collapsible");
     const isDone = collapsible.classList.toggle("done");
     const changeTag = collapsible.querySelector(".info-todo h6");
-    const button2 = document.querySelector('.progress-todo');
 
     if (changeTag) {
         changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
@@ -205,6 +273,8 @@ editForm.addEventListener("submit", async (e) => {
     if(editInputValue) {
         updateTodo(editInputValue)
     }
+
+    description != '' ? icon.style.display = "flex" : icon.style.display = "none";
 
     toggleForms();
 })

@@ -11,6 +11,7 @@ const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
+const editDesc = document.querySelector("#description");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const progressBar = document.querySelector("#progress-bar");
 const todoStates = document.querySelector("#todo-states")
@@ -24,6 +25,7 @@ var width = 1;
 var startedProgress = false;
 
 let oldInputValue;
+let oldDescValue;
 options.classList.toggle("hidden-menu");
 
 // Funções
@@ -170,14 +172,23 @@ const toggleForms = () => {
     todoStates.classList.toggle("hide")
 };
 
-const updateTodo = (text) => {
-    const todos = document.querySelectorAll(".title")
+const updateTodo = (title, desc) => {
+    const todosTitles = document.querySelectorAll(".title")
+    const todoDescs = document.querySelectorAll(".desc-todo")
 
-    todos.forEach((todo) => {
+    todosTitles.forEach((todo) => {
         let todoTitle = todo.querySelector("h3")
 
         if(todoTitle.innerText === oldInputValue) {
-            todoTitle.innerText = text;
+            todoTitle.innerText = title;
+        }
+    })
+
+    todoDescs.forEach((todo) => {
+        let todoDesc = todo.querySelector("p")
+
+        if(todoDesc.innerText === oldDescValue) {
+            todoDesc.innerHTML = desc;
         }
     })
 }
@@ -218,10 +229,14 @@ function finishTask(event) {
 document.addEventListener("click", (e) => {
     const targetElement = e.target;
     const parentElement = targetElement.closest(".collapsible");
-    let todoTitle;
+    let todoTitle, timeStart, timeEnd, description;
 
     if(parentElement && parentElement.querySelector("h3")) {
         todoTitle = parentElement.querySelector("h3").innerHTML
+    }
+
+    if(parentElement && parentElement.querySelector(".description")) {
+        description = parentElement.querySelector(".description").innerHTML
     }
 
     if(targetElement.classList.contains("remove-todo")) {
@@ -245,6 +260,9 @@ document.addEventListener("click", (e) => {
 
         editInput.value = todoTitle;
         oldInputValue = todoTitle;
+
+        editDesc.value = description;
+        oldDescValue = description;
     }
 
     if(targetElement.classList.contains("progress-todo")){
@@ -269,12 +287,14 @@ editForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const editInputValue = await validation(editInput.value);
+    const editDescValue = editDesc.value;
+    const icon = document.querySelector(".title i");
 
-    if(editInputValue) {
-        updateTodo(editInputValue)
+    if(editInputValue || editDescValue) {
+
+        editDescValue != '' ? icon.style.display = "flex" : icon.style.display = "none";
+        updateTodo(editInputValue, editDescValue);
     }
-
-    description != '' ? icon.style.display = "flex" : icon.style.display = "none";
 
     toggleForms();
 })

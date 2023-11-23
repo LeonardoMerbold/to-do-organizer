@@ -44,6 +44,21 @@ input, select {
     padding: 0.25rem 0.5rem;
 }
 
+.time-middle {
+    display: flex;
+    align-items: end;
+    margin-right: 0.3rem;
+}
+
+textarea {
+    display: flex;
+    order: 1;
+    margin-top: 1%;
+    padding: 1%;
+    width: 72.5%;
+    resize: none;
+}
+
 .hide {
     display: none;
 }
@@ -77,6 +92,7 @@ input, select {
 
 .form-control {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .form-control input {

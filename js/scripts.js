@@ -12,6 +12,8 @@ const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const editDesc = document.querySelector("#description");
+const editStart = document.querySelector("#time-start");
+const editEnd = document.querySelector("#time-end");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const progressBar = document.querySelector("#progress-bar");
 const todoStates = document.querySelector("#todo-states")
@@ -26,7 +28,14 @@ var startedProgress = false;
 
 let oldInputValue;
 let oldDescValue;
+let oldStartValue;
+let oldEndValue;
 options.classList.toggle("hidden-menu");
+
+document.addEventListener("DOMContentLoaded", function() {
+    verifyCollapsibles();
+    finishPermission();
+});
 
 // Funções
 const toggleMenu = () => {
@@ -118,13 +127,15 @@ const saveTodo = (validatedTitle) => {
     time.classList.add("time")
     infoTodo.appendChild(time)
 
-    const startTime = document.createElement("p");
-    startTime.classList.add("start-time");
-    time.appendChild(startTime)
+    const timeStart = document.createElement("p");
+    timeStart.classList.add("time-start");
+    time.appendChild(timeStart);
 
     const timeText = document.createElement("p");
     timeText.classList.add("time-text");
+    timeText.innerText = 'às';
     time.appendChild(timeText)
+    timeText.style.display = 'none';
 
     const timeEnd = document.createElement("p");
     timeEnd.classList.add("time-end");
@@ -153,13 +164,15 @@ const saveTodo = (validatedTitle) => {
     todoInput.value = "";
     todoInput.focus();
 
+    verifyCollapsibles();
+    finishPermission();
     searchTasks();
 };
 
-const validation = (title) => {
+const titleValidation = (title) => {
     let regexp = /^\s+$/;
 
-    title = title.match(regexp) ? "Sem titulo" : title.trim();
+    title = title.match(regexp) || title == '' ? "Sem titulo" : title.trim();
 
     return title;
 };
@@ -172,25 +185,53 @@ const toggleForms = () => {
     todoStates.classList.toggle("hide")
 };
 
-const updateTodo = (title, desc) => {
+const updateTodo = (title, start, end, desc) => {
     const todosTitles = document.querySelectorAll(".title")
-    const todoDescs = document.querySelectorAll(".desc-todo")
+    const todosTimes = document.querySelectorAll(".info-todo")
+    const todosDescs = document.querySelectorAll(".desc-todo")
 
     todosTitles.forEach((todo) => {
-        let todoTitle = todo.querySelector("h3")
+        let todoTitle = todo.querySelector("h3");
+        let icon = todo.querySelector("i");
 
-        if(todoTitle.innerText === oldInputValue) {
+        if (todoTitle.innerText === oldInputValue) {
             todoTitle.innerText = title;
+
+            if (icon && desc.trim() === '') {
+                icon.style.display = "none";
+            } else if (icon) {
+                icon.style.display = "flex";
+            }
+        }
+    });
+
+    todosTimes.forEach((todo) => {
+        let todoStart = todo.querySelector(".time-start")
+        let todoEnd = todo.querySelector(".time-end")
+        let timeText = todo.querySelector(".time-text");
+
+        if(todoStart && todoStart.innerText === oldStartValue) {
+            todoStart.innerHTML = start;
+        }
+
+        if(todoEnd && todoEnd.innerText === oldEndValue) {
+            todoEnd.innerHTML = end;
+        }
+
+        if(todoEnd.innerHTML && todoStart.innerHTML) {
+            timeText.style.display = "flex"
+        } else {
+            timeText.style.display = 'none';
         }
     })
 
-    todoDescs.forEach((todo) => {
-        let todoDesc = todo.querySelector("p")
+    todosDescs.forEach((todo) => {
+        let todoDesc = todo.querySelector(".description");
 
-        if(todoDesc.innerText === oldDescValue) {
+        if (todoDesc && todoDesc.innerText === oldDescValue) {
             todoDesc.innerHTML = desc;
         }
-    })
+    });
 }
 
 // Eventos
@@ -200,30 +241,34 @@ todoForm.addEventListener("submit", async (e) => {
     let inputValue = todoInput.value;
 
     if(inputValue) {
-        let validatedInput = await validation(inputValue);
+        let validatedInput = await titleValidation(inputValue);
         saveTodo(validatedInput)
     }
 });
 
-var finishTodoButtons = document.querySelectorAll('.collapsible .finish-todo');
-finishTodoButtons.forEach(function (button) {
-    button.addEventListener('click', finishTask);
-});
 
-function finishTask(event) {
-    const button = event.currentTarget;
-    const collapsible = button.closest(".collapsible");
-    const isDone = collapsible.classList.toggle("done");
-    const changeTag = collapsible.querySelector(".info-todo h6");
+function finishPermission() {
 
-    if (changeTag) {
-        changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
-        changeTag.setAttribute("data-value", isDone ? "done" : "todo");
+    var finishTodoButtons = document.querySelectorAll('.collapsible .finish-todo');
+    finishTodoButtons.forEach(function (button) {
+        button.addEventListener('click', finishTask);
+    });
+
+    function finishTask(event) {
+        const button = event.currentTarget;
+        const collapsible = button.closest(".collapsible");
+        const isDone = collapsible.classList.toggle("done");
+        const changeTag = collapsible.querySelector(".info-todo h6");
+
+        if (changeTag) {
+            changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
+            changeTag.setAttribute("data-value", isDone ? "done" : "todo");
+        }
+
+        collapsible.classList.remove("overdue");
+
+        verifyStateTodo(changeTag.dataset.value, button);
     }
-
-    collapsible.classList.remove("overdue");
-
-    verifyStateTodo(changeTag.dataset.value, button);
 }
 
 document.addEventListener("click", (e) => {
@@ -233,6 +278,14 @@ document.addEventListener("click", (e) => {
 
     if(parentElement && parentElement.querySelector("h3")) {
         todoTitle = parentElement.querySelector("h3").innerHTML
+    }
+
+    if(parentElement && parentElement.querySelector(".time-start")) {
+        timeStart = parentElement.querySelector(".time-start").innerHTML
+    }
+
+    if(parentElement && parentElement.querySelector(".time-end")) {
+        timeEnd = parentElement.querySelector(".time-end").innerHTML
     }
 
     if(parentElement && parentElement.querySelector(".description")) {
@@ -261,6 +314,18 @@ document.addEventListener("click", (e) => {
         editInput.value = todoTitle;
         oldInputValue = todoTitle;
 
+        editStart.value = timeStart;
+        oldStartValue = timeStart;
+
+        if (timeStart || timeStart != '') {
+            editEnd.value = timeEnd;
+            oldEndValue = timeEnd;
+        } else {
+            editStart.value = timeEnd;
+            oldEndValue = timeEnd;
+            editEnd.value = '';
+        }
+
         editDesc.value = description;
         oldDescValue = description;
     }
@@ -286,19 +351,14 @@ cancelEditBtn.addEventListener("click", (e) => {
 editForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const editInputValue = await validation(editInput.value);
+    const editInputValue = await titleValidation(editInput.value);
+    const editStartValue = editStart.value;
+    const editEndValue = editEnd.value;
     const editDescValue = editDesc.value;
-    const icon = document.querySelector(".title i");
 
-    if(editInputValue || editDescValue) {
-
-        editDescValue != '' ? icon.style.display = "flex" : icon.style.display = "none";
-        updateTodo(editInputValue, editDescValue);
-    }
-
+    updateTodo(editInputValue, editStartValue, editEndValue, editDescValue);
     toggleForms();
 })
-
 
 const searchElement = document.querySelector('#search input')
 searchElement.addEventListener('input', searchTasks)
@@ -367,24 +427,26 @@ function progress() {
     }
 }
 
-var collapsibles = document.getElementsByClassName("collapsible");
+function verifyCollapsibles() {
+    var collapsibles = document.getElementsByClassName("collapsible");
 
-for (let i = 0; i < collapsibles.length; i++) {
-    collapsibles[i].addEventListener("click", showAndHideDescription);
-}
+    for (let i = 0; i < collapsibles.length; i++) {
+        collapsibles[i].addEventListener("click", showAndHideDescription);
+    }
 
-function showAndHideDescription(event) {
-    const isButton = event.target.closest(".buttons-todo button");
+    function showAndHideDescription(event) {
+        const isButton = event.target.closest(".buttons-todo button");
 
-    if (!isButton) {
-        const collapsible = event.currentTarget;
-        collapsible.classList.toggle("active");
+        if (!isButton) {
+            const collapsible = event.currentTarget;
+            collapsible.classList.toggle("active");
 
-        const content = collapsible.querySelector(".desc-todo");
-        content.style.display = content.style.display === "flex" ? "none" : "flex";
+            const content = collapsible.querySelector(".desc-todo");
+            content.style.display = content.style.display === "flex" ? "none" : "flex";
 
-        const icon = collapsible.querySelector(".title i");
-        collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
+            const icon = collapsible.querySelector(".title i");
+            collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
+        }
     }
 }
 

@@ -64,9 +64,9 @@
             <div class="form-control">
                 <input type="text" id="edit-input">
                 <input type="time" id="time-start">
-                <p> às </p>
+                <p type="text" class="time-middle"> às </p>
                 <input type="time" id="time-end">
-                <input type="text" id="description" placeholder="Descreva sua tarefa...">
+                <textarea type="text" id="description" rows="8" placeholder="Descreva sua tarefa..."> </textarea>
                 <button type="submit">
                     <i class="far fa-edit"></i>
                 </button>
@@ -169,15 +169,14 @@
                         </div>
                     </div>
                     <div id="desc-todo" class="desc-todo">
-                        <p class="description"> <b>• Estudar CSS:</b> Selectors, Colors, Margin, Padding, Height, Width, Display; <br>
-                            <b>• Estudar Javascript:</b> Functions, Arrow Functions, Objects, Arrays, Array methods, Ternary Operators.
-                        </p>
+                        <p class="description"><b>• Estudar CSS:</b> Selectors, Colors, Margin, Padding, Height, Width, Display;<br><b>• Estudar Javascript:</b> Functions, Arrow Functions, Objects, Arrays, Array methods, Ternary Operators.</p>
                     </div>
                 </div>
             </div>
             <div class="collapsible overdue">
                 <div class="todo">
                     <div class="title">
+                        <i class="fa-solid fa-caret-right"></i>
                         <h3>Ir para a academia</h3>
                     </div>
                     <div class="buttons-todo">
@@ -210,7 +209,7 @@
                         </div>
                     </div>
                     <div id="desc-todo" class="desc-todo">
-                        <p class="description"></p>
+                        <p class="description">Treino de Costas</p>
                     </div>
                 </div>
             </div>

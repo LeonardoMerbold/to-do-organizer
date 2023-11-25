@@ -35,6 +35,7 @@ options.classList.toggle("hidden-menu");
 document.addEventListener("DOMContentLoaded", function() {
     verifyCollapsibles();
     finishPermission();
+    verifyAllStatesTodo()
 });
 
 // Funções
@@ -164,6 +165,7 @@ const saveTodo = (validatedTitle) => {
     todoInput.value = "";
     todoInput.focus();
 
+    verifyAllStatesTodo()
     verifyCollapsibles();
     finishPermission();
     searchTasks();
@@ -267,8 +269,28 @@ function finishPermission() {
 
         collapsible.classList.remove("overdue");
 
-        verifyStateTodo(changeTag.dataset.value, button);
+        verifyStateTodoByButton(changeTag.dataset.value, button);
     }
+}
+
+function verifyStateTodoByButton(state, button) {
+    const targetDiv = document.querySelector('.'+state+'-state');
+    const collapsibleDiv = button.closest('.collapsible');
+    targetDiv.appendChild(collapsibleDiv);
+}
+
+function verifyAllStatesTodo() {
+    const collapsibles = document.querySelectorAll('.collapsible');
+
+    collapsibles.forEach(function (collapsible) {
+        const stateCollapsible = collapsible.querySelector(".info-todo h6").dataset.value;
+        const stateZ = stateCollapsible + '-state'
+        const targetDiv = document.querySelector('.' + stateZ);
+
+        if (targetDiv && targetDiv.className == stateZ) {
+            targetDiv.appendChild(collapsible);
+        }
+    });
 }
 
 document.addEventListener("click", (e) => {
@@ -448,10 +470,4 @@ function verifyCollapsibles() {
             collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
         }
     }
-}
-
-function verifyStateTodo(state, button) {
-    const targetDiv = document.querySelector('.'+state+'-state');
-    const collapsibleDiv = button.closest('.collapsible');
-    targetDiv.appendChild(collapsibleDiv);
 }

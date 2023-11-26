@@ -386,7 +386,7 @@ const searchElement = document.querySelector('#search input')
 searchElement.addEventListener('input', searchTasks)
 
 function searchTasks() {
-    const tasks = document.querySelectorAll('div .todo')
+    const tasks = document.querySelectorAll('div .collapsible')
 
     if(searchElement.value != '') {
         for(let task of tasks) {
@@ -410,7 +410,7 @@ const filterElement = document.querySelector('#filter select');
 filterElement.addEventListener('change', filterTasks);
 
 function filterTasks() {
-    const tasks = document.querySelectorAll('.todo');
+    const tasks = document.querySelectorAll('.collapsible');
 
     for(let task of tasks) {
         let tags = task.querySelectorAll('h6');

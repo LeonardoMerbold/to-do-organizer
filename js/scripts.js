@@ -3,8 +3,6 @@ const menuBtn = document.querySelector("#fab");
 const options = document.querySelector("#options");
 const clockBtn = document.querySelector("#clock-button");
 
-const timer = document.querySelector("#clockDisplay")
-
 const toolbarForm = document.querySelector("#toolbar-form");
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
@@ -42,23 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
 const toggleMenu = () => {
     options.style.setProperty("transition", "2s");
     options.classList.toggle("hidden-menu");
-};
-
-const showClock = () => {
-    clockBtn.classList.toggle("button-actived");
-    clockBtn.classList.toggle("iconbutton-actived");
-
-    if(clockBtn.classList.contains("iconbutton-actived")) {
-        timer.classList.add("pulse");
-        timer.classList.remove("out");
-        timer.classList.remove("out2")
-    }else {
-        timer.classList.add("out");
-        setTimeout(function(){
-            timer.classList.add("out2")
-            timer.classList.remove("pulse")
-        },1900);
-    }
 };
 
 const saveTodo = (validatedTitle) => {

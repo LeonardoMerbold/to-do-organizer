@@ -6,6 +6,7 @@
     <title>To Do Organizer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="js/config.js" defer></script>
     <script src="js/clock.js" defer></script>
     <script src="js/scripts.js" defer></script>
 </head>
@@ -42,11 +43,32 @@
             </div>
             <span class="btn-label">Histórico</span>
         </li>
+
+        <li>
+            <div id="config-button" class="iconbutton" onclick="showConfigs()">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+            <span class="btn-label"> Configurações</span>
+        </li>
     </ul>
 
     <div id="clockDisplay" class="clock" onload="showTime()"> </div>
 
-    <div class="todo-container">
+    <div id="config-container" class="todo-container config-container">
+        <header>
+            <h1>Configurações</h1>
+        </header>
+        <div class="clock-format">
+            <h3>Formato de horário</h3>
+            <label class="switch">
+                <input id="format" type="checkbox">
+                <span class="slider round">
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <div id="todo-container" class="todo-container">
         <header>
             <h1>To Do Organizer</h1>
         </header>

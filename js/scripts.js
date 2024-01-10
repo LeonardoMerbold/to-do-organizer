@@ -31,9 +31,7 @@ let oldEndValue;
 options.classList.toggle("hidden-menu");
 
 document.addEventListener("DOMContentLoaded", function() {
-    verifyCollapsibles();
-    finishPermission();
-    verifyAllStatesTodo()
+    updateTaskStatus()
 });
 
 // Funções
@@ -146,9 +144,7 @@ const saveTodo = (validatedTitle) => {
     todoInput.value = "";
     todoInput.focus();
 
-    verifyAllStatesTodo()
-    verifyCollapsibles();
-    finishPermission();
+    updateTaskStatus()
     searchTasks();
 };
 
@@ -229,49 +225,81 @@ todoForm.addEventListener("submit", async (e) => {
     }
 });
 
-
-function finishPermission() {
-
-    var finishTodoButtons = document.querySelectorAll('.collapsible .finish-todo');
-    finishTodoButtons.forEach(function (button) {
-        button.addEventListener('click', finishTask);
-    });
-
-    function finishTask(event) {
-        const button = event.currentTarget;
-        const collapsible = button.closest(".collapsible");
-        const isDone = collapsible.classList.toggle("done");
-        const changeTag = collapsible.querySelector(".info-todo h6");
-
-        if (changeTag) {
-            changeTag.textContent = isDone ? "Concluídos" : "Pendentes";
-            changeTag.setAttribute("data-value", isDone ? "done" : "todo");
-        }
-
-        collapsible.classList.remove("overdue");
-
-        verifyStateTodoByButton(changeTag.dataset.value, button);
-    }
-}
-
-function verifyStateTodoByButton(state, button) {
-    const targetDiv = document.querySelector('.'+state+'-state');
-    const collapsibleDiv = button.closest('.collapsible');
-    targetDiv.appendChild(collapsibleDiv);
-}
-
-function verifyAllStatesTodo() {
+function updateTaskStatus() {
+    const currentTime = new Date().getTime();
     const collapsibles = document.querySelectorAll('.collapsible');
 
-    collapsibles.forEach(function (collapsible) {
-        const stateCollapsible = collapsible.querySelector(".info-todo h6").dataset.value;
-        const stateZ = stateCollapsible + '-state'
+    collapsibles.forEach(collapsible => {
+        const timeStartElement = collapsible.querySelector(".time-start").getAttribute("value");
+        const tagElement = collapsible.querySelector(".info-todo h6");
+        const finishTodoButton = collapsible.querySelector('.finish-todo');
+
+        if (timeStartElement && tagElement) {
+            const timeStart = new Date(timeStartElement).getTime();
+
+            if (currentTime > timeStart && tagElement.dataset.value === "todo") {
+                updateTaskToOverdue(collapsible, tagElement);
+            }
+        }
+
+        if (finishTodoButton) {
+            finishTodoButton.addEventListener('click', () => {
+                toggleTaskDoneStatus(collapsible, tagElement);
+                verifyStateTodoByButton(tagElement.dataset.value, finishTodoButton);
+                filterTasks();
+            });
+        }
+
+        moveTaskToStateContainer(collapsible, tagElement);
+
+        collapsible.addEventListener("click", showAndHideDescription);
+    });
+
+    function updateTaskToOverdue(collapsible, tagElement) {
+        tagElement.textContent = "Atrasadas";
+        tagElement.setAttribute("data-value", "overdue");
+        collapsible.classList.add("overdue");
+    }
+
+    function toggleTaskDoneStatus(collapsible, tagElement) {
+        const isDone = collapsible.classList.toggle("done");
+
+        tagElement.textContent = isDone ? "Concluídos" : "Pendentes";
+        tagElement.setAttribute("data-value", isDone ? "done" : "todo");
+
+        collapsible.classList.remove("overdue");
+    }
+
+    function moveTaskToStateContainer(collapsible, tagElement) {
+        const stateCollapsible = tagElement.dataset.value;
+        const stateZ = stateCollapsible + '-state';
         const targetDiv = document.querySelector('.' + stateZ);
 
         if (targetDiv && targetDiv.className == stateZ) {
             targetDiv.appendChild(collapsible);
         }
-    });
+    }
+
+    function showAndHideDescription(event) {
+        const isButton = event.target.closest(".buttons-todo button");
+
+        if (!isButton) {
+            const collapsible = event.currentTarget;
+            collapsible.classList.toggle("active");
+
+            const content = collapsible.querySelector(".desc-todo");
+            content.style.display = content.style.display === "flex" ? "none" : "flex";
+
+            const icon = collapsible.querySelector(".title i");
+            collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
+        }
+    }
+
+    function verifyStateTodoByButton(state, button) {
+        const targetDiv = document.querySelector('.'+state+'-state');
+        const collapsibleDiv = button.closest('.collapsible');
+        targetDiv.appendChild(collapsibleDiv);
+    }
 }
 
 document.addEventListener("click", (e) => {
@@ -368,7 +396,6 @@ searchElement.addEventListener('input', searchTasks)
 
 function searchTasks() {
     const tasks = document.querySelectorAll('div .collapsible')
-
     if(searchElement.value != '') {
         for(let task of tasks) {
             let title = task.querySelector('h3')
@@ -427,28 +454,5 @@ function progress() {
         progressInterval = null;
     } else {
         progressInterval = setInterval(frame, 1000);
-    }
-}
-
-function verifyCollapsibles() {
-    var collapsibles = document.getElementsByClassName("collapsible");
-
-    for (let i = 0; i < collapsibles.length; i++) {
-        collapsibles[i].addEventListener("click", showAndHideDescription);
-    }
-
-    function showAndHideDescription(event) {
-        const isButton = event.target.closest(".buttons-todo button");
-
-        if (!isButton) {
-            const collapsible = event.currentTarget;
-            collapsible.classList.toggle("active");
-
-            const content = collapsible.querySelector(".desc-todo");
-            content.style.display = content.style.display === "flex" ? "none" : "flex";
-
-            const icon = collapsible.querySelector(".title i");
-            collapsible.classList.contains("active") ? icon.className = 'fa-solid fa-caret-down' : icon.className = 'fa-solid fa-caret-right';
-        }
     }
 }

@@ -100,6 +100,15 @@ textarea {
     margin-right: 0.3rem;
 }
 
+.form-changes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-changes input {
+    margin-right: 1%;
+}
+
 #cancel-edit-btn {
     margin-top: 1rem;
 }

@@ -85,9 +85,9 @@
             <p>Edite a sua tarefa:</p>
             <div class="form-changes">
                 <input type="text" id="edit-input">
-                <input type="time" id="time-start">
+                <input type="datetime-local" id="time-start">
                 <p type="text" class="time-middle"> às </p>
-                <input type="time" id="time-end">
+                <input type="datetime-local" id="time-end">
                 <textarea type="text" id="description" rows="8" placeholder="Descreva sua tarefa..."> </textarea>
                 <button type="submit">
                     <i class="far fa-edit"></i>
@@ -142,9 +142,9 @@
                     <div class="info-todo">
                         <h6 data-value="done">Concluídos</h6>
                         <div class="time">
-                            <p class="time-start">08:00</p>
+                            <p value="2024-01-09T08:00" class="time-start">08:00</p>
                             <p class="time-text">às</p>
-                            <p class="time-end">09:00</p>
+                            <p value="2024-01-09T09:00" class="time-end">09:00</p>
                         </div>
                         <div id="progress-bar" class="progress-bar">
                             <div class="progress"></div>
@@ -182,9 +182,9 @@
                     <div class="info-todo">
                         <h6 data-value="todo">Pendentes</h6>
                         <div class="time">
-                            <p value="2024-01-09T09:00:00" class="time-start">09:00</p>
+                            <p value="2024-01-09T09:00" class="time-start">09:00</p>
                             <p class="time-text">às</p>
-                            <p class="time-end">18:00</p>
+                            <p value="2024-01-09T18:00" class="time-end">18:00</p>
                         </div>
                         <div id="progress-bar" class="progress-bar">
                             <div class="progress"></div>
@@ -222,9 +222,9 @@
                     <div class="info-todo">
                         <h6 data-value="overdue">Atrasados</h6>
                         <div class="time">
-                            <p class="time-start">05:00</p>
+                            <p value="2024-01-09T05:00" class="time-start">05:00</p>
                             <p class="time-text">às</p>
-                            <p class="time-end">07:00</p>
+                            <p value="2024-01-09T07:00" class="time-end">07:00</p>
                         </div>
                         <div id="progress-bar" class="progress-bar">
                             <div class="progress"></div>

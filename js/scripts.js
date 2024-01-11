@@ -164,10 +164,10 @@ const toggleForms = () => {
     todoStates.classList.toggle("hide")
 };
 
-const updateTodo = (title, start, end, desc) => {
-    const todosTitles = document.querySelectorAll(".title")
-    const todosTimes = document.querySelectorAll(".info-todo")
-    const todosDescs = document.querySelectorAll(".desc-todo")
+const updateTodo = async (title, start, end, desc) => {
+    const todosTitles = document.querySelectorAll(".title");
+    const todosTimes = document.querySelectorAll(".info-todo");
+    const todosDescs = document.querySelectorAll(".desc-todo");
 
     todosTitles.forEach((todo) => {
         let todoTitle = todo.querySelector("h3");
@@ -176,7 +176,7 @@ const updateTodo = (title, start, end, desc) => {
         if (todoTitle.innerText === oldInputValue) {
             todoTitle.innerText = title;
 
-            if (icon && desc.trim() === '') {
+            if (icon && desc.trim() === "") {
                 icon.style.display = "none";
             } else if (icon) {
                 icon.style.display = "flex";
@@ -184,25 +184,33 @@ const updateTodo = (title, start, end, desc) => {
         }
     });
 
-    todosTimes.forEach((todo) => {
-        let todoStart = todo.querySelector(".time-start")
-        let todoEnd = todo.querySelector(".time-end")
+    todosTimes.forEach(async (todo) => {
+        let todoStart = todo.querySelector(".time-start");
+        let todoEnd = todo.querySelector(".time-end");
         let timeText = todo.querySelector(".time-text");
 
-        if(todoStart && todoStart.innerText === oldStartValue) {
-            todoStart.innerHTML = start;
+        if (todoStart && todoStart.getAttribute("value") === oldStartValue) {
+            const dateObjStart = createDateObject(start);
+            const hourStart = dateObjStart ? dateObjStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            todoStart.setAttribute("value", start);
+            todoStart.innerHTML = hourStart;
         }
 
-        if(todoEnd && todoEnd.innerText === oldEndValue) {
-            todoEnd.innerHTML = end;
+        if (todoEnd && todoEnd.getAttribute("value") === oldEndValue) {
+            const dateObjEnd = createDateObject(end);
+            const hourEnd = dateObjEnd ? dateObjEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+            todoEnd.setAttribute("value", end);
+            todoEnd.innerHTML = hourEnd;
         }
 
-        if(todoEnd.innerHTML && todoStart.innerHTML) {
-            timeText.style.display = "flex"
+        if ((todoEnd && todoEnd.innerHTML) || (todoStart && todoStart.innerHTML)) {
+            timeText.style.display = "flex";
         } else {
             timeText.style.display = 'none';
         }
-    })
+    });
 
     todosDescs.forEach((todo) => {
         let todoDesc = todo.querySelector(".description");
@@ -211,7 +219,9 @@ const updateTodo = (title, start, end, desc) => {
             todoDesc.innerHTML = desc;
         }
     });
-}
+
+    updateTaskStatus();
+};
 
 // Eventos
 todoForm.addEventListener("submit", async (e) => {
@@ -256,7 +266,7 @@ function updateTaskStatus() {
     });
 
     function updateTaskToOverdue(collapsible, tagElement) {
-        tagElement.textContent = "Atrasadas";
+        tagElement.textContent = "Atrasados";
         tagElement.setAttribute("data-value", "overdue");
         collapsible.classList.add("overdue");
     }
@@ -264,10 +274,15 @@ function updateTaskStatus() {
     function toggleTaskDoneStatus(collapsible, tagElement) {
         const isDone = collapsible.classList.toggle("done");
 
-        tagElement.textContent = isDone ? "Concluídos" : "Pendentes";
-        tagElement.setAttribute("data-value", isDone ? "done" : "todo");
-
-        collapsible.classList.remove("overdue");
+        if (isDone) {
+            tagElement.textContent = "Concluídos";
+            tagElement.setAttribute("data-value", "done");
+        } else {
+            collapsible.classList.remove("overdue");
+            tagElement.textContent = "Pendentes";
+            tagElement.setAttribute("data-value", "todo");
+            updateTaskToOverdue(collapsible, tagElement);
+        }
     }
 
     function moveTaskToStateContainer(collapsible, tagElement) {
@@ -302,6 +317,16 @@ function updateTaskStatus() {
     }
 }
 
+function createDateObject(dateString) {
+    if (!dateString) {
+        return null; //caso esteja vazia ou nula
+    }
+
+    const dateObj = new Date(dateString);
+
+    return isNaN(dateObj) ? null : dateObj;
+}
+
 document.addEventListener("click", (e) => {
     const targetElement = e.target;
     const parentElement = targetElement.closest(".collapsible");
@@ -312,11 +337,11 @@ document.addEventListener("click", (e) => {
     }
 
     if(parentElement && parentElement.querySelector(".time-start")) {
-        timeStart = parentElement.querySelector(".time-start").innerHTML
+        timeStart = parentElement.querySelector(".time-start").getAttribute("value");
     }
 
     if(parentElement && parentElement.querySelector(".time-end")) {
-        timeEnd = parentElement.querySelector(".time-end").innerHTML
+        timeEnd = parentElement.querySelector(".time-end").getAttribute("value");
     }
 
     if(parentElement && parentElement.querySelector(".description")) {

@@ -52,10 +52,9 @@ input, select {
 
 textarea {
     display: flex;
-    order: 1;
     margin-top: 1%;
     padding: 1%;
-    width: 72.5%;
+    width: 75%;
     resize: none;
 }
 
@@ -86,8 +85,9 @@ textarea {
 }
 
 #todo-form p, #edit-form p {
-    margin-bottom: 0.5rem;
+    margin-left: 0.2rem;
     font-weight: bold;
+    align-items: center;
 }
 
 .form-control {
@@ -100,17 +100,31 @@ textarea {
     margin-right: 0.3rem;
 }
 
-.form-changes {
+#edit-input {
+    width: 75%;
     display: flex;
     flex-wrap: wrap;
 }
 
+.form-changes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .form-changes input {
-    margin-right: 1%;
+    margin: 1%;
+    padding: 1%;
 }
 
 #cancel-edit-btn {
-    margin-top: 1rem;
+    width: 25%;
+    margin: 1% 2% 0 0;
+}
+
+#submit-edit-btn {
+    width: 25%;
+    margin: 1% 0 0 2%;
 }
 
 /* Todo toolbar */

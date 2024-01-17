@@ -371,15 +371,18 @@ document.addEventListener("click", (e) => {
         oldInputValue = todoTitle;
 
         editStart.value = timeStart;
+        console.log(editStart.value)
         oldStartValue = timeStart;
 
-        if (timeStart || timeStart != '') {
-            editEnd.value = timeEnd;
-            oldEndValue = timeEnd;
-        } else {
+        editEnd.value = timeEnd;
+        oldEndValue = timeEnd;
+
+        if (timeStart == '') {
             editStart.value = timeEnd;
             oldEndValue = timeEnd;
-            editEnd.value = '';
+        } else if (timeStart > timeEnd) {
+            editEnd.value = timeStart;
+            oldStartValue = timeEnd;
         }
 
         editDesc.value = description;

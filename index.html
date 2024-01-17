@@ -84,16 +84,18 @@
         <form id="edit-form" class="hide">
             <p>Edite a sua tarefa:</p>
             <div class="form-changes">
-                <input type="text" id="edit-input">
+                <input type="text" id="edit-input" placeholder="Nome da tarefa">
                 <input type="datetime-local" id="time-start">
                 <p type="text" class="time-middle"> às </p>
                 <input type="datetime-local" id="time-end">
                 <textarea type="text" id="description" rows="8" placeholder="Descreva sua tarefa..."> </textarea>
-                <button type="submit">
-                    <i class="far fa-edit"></i>
+                <button id="cancel-edit-btn">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+                <button id="submit-edit-btn" type="submit">
+                    <i class="fa-solid fa-check"></i>
                 </button>
             </div>
-            <button id="cancel-edit-btn">Cancelar</button>
         </form>
         <div id="toolbar-form">
             <div id="toolbar">
@@ -191,7 +193,7 @@
                         </div>
                     </div>
                     <div id="desc-todo" class="desc-todo">
-                        <p class="description"><b>• Estudar CSS:</b> Selectors, Colors, Margin, Padding, Height, Width, Display;<br><b>• Estudar Javascript:</b> Functions, Arrow Functions, Objects, Arrays, Array methods, Ternary Operators.</p>
+                        <p class="description">Estudar CSS: Selectors, Colors, Margin, Padding, Height, Width, Display; Estudar Javascript: Functions, Arrow Functions, Objects, Arrays, Array methods, Ternary Operators.</p>
                     </div>
                 </div>
             </div>
